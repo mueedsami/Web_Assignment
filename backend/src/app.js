@@ -1,8 +1,13 @@
 import express from 'express';
 import "./configuration/dbConfig.js";  // Ensure the correct path
-
+import router from "./routes/signup.js";
+import bodyParser from 'body-parser';
 
 const app = express();
+
+app.use(bodyParser.json())
+
+app.use("/user", router);
 
 app.get('/', (req, res) => {
   res.send('Server is running...');
