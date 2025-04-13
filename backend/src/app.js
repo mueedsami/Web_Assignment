@@ -1,13 +1,21 @@
 import express from 'express';
 import "./configuration/dbConfig.js";  // Ensure the correct path
-import router from "./routes/signup.js";
+import signupRoute from "./routes/signup.js";
+import loginRoute from "./routes/login.js";
 import bodyParser from 'body-parser';
+import cors from 'cors';
+
+
+
 
 const app = express();
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(cors());
 
-app.use("/user", router);
+
+app.use("/user", signupRoute);
+app.use("/auth", loginRoute);
 
 app.get('/', (req, res) => {
   res.send('Server is running...');
