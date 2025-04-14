@@ -1,0 +1,35 @@
+.task-form-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 80px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .taskform {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .taskform input,
+  .task-form textarea,
+  .task-form select {
+    margin-bottom: 10px;
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  .taskform button {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #222;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  

@@ -29,6 +29,7 @@ const Login = () => {
         body: JSON.stringify(formData)
       })
       const result = await response.json();
+      localStorage.setItem("token",result.token);
       console.log(result);
       navigate("/dashboard");
       

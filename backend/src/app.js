@@ -1,7 +1,8 @@
 import express from 'express';
-import "./configuration/dbConfig.js";  // Ensure the correct path
+import "./configuration/dbConfig.js";
 import signupRoute from "./routes/signup.js";
 import loginRoute from "./routes/login.js";
+import taskRoute from "./routes/task.js";
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -16,6 +17,8 @@ app.use(cors());
 
 app.use("/user", signupRoute);
 app.use("/auth", loginRoute);
+app.use("/task", taskRoute);
+
 
 app.get('/', (req, res) => {
   res.send('Server is running...');
