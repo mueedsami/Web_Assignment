@@ -88,7 +88,7 @@ const Taskform= ()=>{
                 <select name="priority" value ={taskData.priority} onChange={handleChange} placeholder="Enter priority" required >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
-                    <option value="Hard">Hard</option>
+                    <option value="High">High</option>
                 </select>
 
                 <button type="submit">Create Task</button>
