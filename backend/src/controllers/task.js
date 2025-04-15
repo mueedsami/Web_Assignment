@@ -50,3 +50,78 @@ export const getTasks = async (req, res) => {
   }
 };
 
+export const deleteTask = async (req, res) => {
+  try {
+    await Task.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Task deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Task deletion failed", error: err.message });
+  }
+};
+
+export const markTaskComplete = async (req, res) => {
+  try {
+    const task = await Task.findByIdAndUpdate(
+      req.params.id,
+      { completed: true },
+      { new: true }
+    );
+
+    if (!task) return res.status(404).json({ message: "Task not found" });
+
+    res.status(200).json({ message: "Task marked as completed", task });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to mark task complete", error: err.message });
+  }
+};
+
+export const editTask = async (req, res) => {
+  const { title, description, dueDate, priority } = req.body; // Extract data from request body
+  const taskId = req.params.id; // Extract task ID from URL parameter
+
+  try {
+    // Find the task by ID and update it
+    const updatedTask = await Task.findByIdAndUpdate(
+      taskId,
+      { title, description, dueDate, priority }, // New task data to update
+      { new: true } // Ensure the updated task is returned
+    );
+
+    if (!updatedTask) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    // Return the updated task
+    res.status(200).json({ message: 'Task updated successfully', task: updatedTask });
+  } catch (error) {
+    console.error('Error editing task:', error.message);
+    res.status(500).json({ message: 'Error updating task', error: error.message });
+  }
+};
+
+export const updateTask = async (req, res) => {
+  const { id } = req.params;
+  const { title, description, dueDate, priority } = req.body;
+
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(
+      id,
+      {
+        title,
+        description,
+        dueDate,
+        priority
+      },
+      { new: true } // return the updated document
+    );
+
+    if (!updatedTask) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    res.status(200).json({ message: 'Task updated successfully', task: updatedTask });
+  } catch (error) {
+    console.error('Error updating task:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

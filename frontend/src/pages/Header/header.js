@@ -26,6 +26,9 @@ const Header = () => {
               <Nav.Link as={Link} to="/dashboard" className="nav-link">
                 Dashboard
               </Nav.Link>
+              <Nav.Link as={Link} to="/create-task" className="nav-link create-task-btn">
+                  Create Task
+              </Nav.Link>
               <Nav.Link onClick={handleLogout} className="nav-link">
                 Logout
               </Nav.Link>
@@ -35,7 +38,7 @@ const Header = () => {
               <Nav.Link as={Link} to="/login" className="nav-link">
                 Login
               </Nav.Link>
-              <Nav.Link as={Link} to="/register" className="nav-link">
+              <Nav.Link as={Link} to="/signup" className="nav-link">
                 Register
               </Nav.Link>
             </>
