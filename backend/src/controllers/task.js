@@ -76,22 +76,22 @@ export const markTaskComplete = async (req, res) => {
 };
 
 export const editTask = async (req, res) => {
-  const { title, description, dueDate, priority } = req.body; // Extract data from request body
-  const taskId = req.params.id; // Extract task ID from URL parameter
+  const { title, description, dueDate, priority } = req.body;
+  const taskId = req.params.id;
 
   try {
-    // Find the task by ID and update it
+  
     const updatedTask = await Task.findByIdAndUpdate(
       taskId,
-      { title, description, dueDate, priority }, // New task data to update
-      { new: true } // Ensure the updated task is returned
+      { title, description, dueDate, priority },
+      { new: true }
     );
 
     if (!updatedTask) {
       return res.status(404).json({ message: 'Task not found' });
     }
 
-    // Return the updated task
+    
     res.status(200).json({ message: 'Task updated successfully', task: updatedTask });
   } catch (error) {
     console.error('Error editing task:', error.message);
@@ -112,7 +112,7 @@ export const updateTask = async (req, res) => {
         dueDate,
         priority
       },
-      { new: true } // return the updated document
+      { new: true }
     );
 
     if (!updatedTask) {

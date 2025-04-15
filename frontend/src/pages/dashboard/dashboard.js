@@ -79,8 +79,8 @@ const Dashboard = () => {
       });
 
       if (response.ok) {
-        setEditingTaskId(null); // Clear editing state
-        fetchTasks(); // Refresh task list
+        setEditingTaskId(null);
+        fetchTasks();
       } else {
         console.error('Failed to update task');
       }
@@ -164,7 +164,7 @@ const Dashboard = () => {
                 {task.completed ? 'Completed' : 'Incomplete'}
               </div>
 
-              {/* Show input fields for editing */}
+             
               {editingTaskId === task._id ? (
                 <div>
                   <input

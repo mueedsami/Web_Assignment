@@ -14,12 +14,12 @@ const taskSchema = new mongoose.Schema({
   },
   completed: {
     type: Boolean,
-    default: false, // ✅ Default value added
+    default: false, 
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true, // optional based on your setup
+    required: true,
   },
 }, { timestamps: true });
 
