@@ -3,7 +3,7 @@ import { createUser as createUserService } from '../services/signup.js';
 async function createUserController(req, res) {
     try {
         const userData = req.body;
-        const user = await createUserService(userData); // Call the imported function
+        const user = await createUserService(userData);
         res.status(201).json({ user: user, message: "User created successfully" });
 
     } catch (error) {
