@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './dashboard.css';
 
 const Dashboard = () => {
+
+  const [userRole, setUserRole] = useState('');
+  const [allUsers, setAllUsers] = useState([]);
+
+
   const [tasks, setTasks] = useState([]);
   const [sortBy, setSortBy] = useState('');
   const [filterBy, setFilterBy] = useState('');
@@ -47,9 +52,56 @@ const Dashboard = () => {
     }
   };
 
+
   useEffect(() => {
     fetchTasks();
   }, [sortBy, filterBy]);
+
+
+  //fetch users from backend
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch('http://localhost:3000/user/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+        setUserRole(data.role);
+      } catch (err) {
+        console.error('Failed to fetch user info:', err.message);
+      }
+    };
+  
+    fetchUserRole();
+  }, []);
+
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch('http://localhost:3000/user/all', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+        setAllUsers(data.users || []);
+      } catch (err) {
+        console.error('Failed to fetch users:', err.message);
+      }
+    };
+  
+    if (userRole === 'admin') {
+      fetchAllUsers();
+    }
+  }, [userRole]);
+
+  
+
+  
 
   // Handle editing of a task
   const handleEdit = (taskId) => {
@@ -120,6 +172,29 @@ const Dashboard = () => {
       console.error('Error deleting task:', error.message);
     }
   };
+  
+  
+  //delete user
+  const handleDeleteUser = async (userId) => {
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`http://localhost:3000/user/delete/${userId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+  
+      if (res.ok) {
+        setAllUsers(prev => prev.filter(user => user._id !== userId));
+      } else {
+        console.error('Failed to delete user');
+      }
+    } catch (err) {
+      console.error('Error deleting user:', err.message);
+    }
+  };
+  
 
   return (
     <div className="dashboardContainer">
@@ -212,8 +287,43 @@ const Dashboard = () => {
         ) : (
           <p>No tasks found.</p>
         )}
+
+        {userRole === 'admin' && (
+          <div className="adminPanel">
+            <h2>All Users</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allUsers.map(user => (
+                  <tr key={user._id}>
+                    <td>{user.email}</td>
+                    <td>{user.name}</td>
+                    <td>{user.role}</td>
+                    <td>
+                      {user.role !== 'admin' && (
+                        <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
-    </div>
+
+      </div>
+
+      
+
+    
   );
 };
 
